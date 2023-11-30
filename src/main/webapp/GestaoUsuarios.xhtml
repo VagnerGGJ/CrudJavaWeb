@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="WEB-INF/template/layout.xhtml">
+
+	<ui:define name="titulo">
+		Cadastro de Usuários
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<f:metadata>
+			<f:viewAction action="#{gestaoUsuariosBean.todosUsuarios()}" />
+		</f:metadata>
+
+		<h:form id="frm">
+
+			<p:messages id="messages" />
+
+			<p:toolbar id="toolbar">
+				<p:toolbarGroup>
+					<p:inputText id="termoPesquisa"
+						placeholder="Digite aqui um termo para pesquisa..." size="50"
+						value="#{gestaoUsuariosBean.termoPesquisa}" />
+					<p:commandButton value="Pesquisar" icon="pi pi-search"
+						actionListener="#{gestaoUsuariosBean.pesquisar}"
+						update="usuariosDataTable messages" process="@this termoPesquisa"
+						style="margin: 0 10px;" />
+				</p:toolbarGroup>
+
+				<p:toolbarGroup align="right">
+					<p:commandButton value="Novo" icon="pi pi-plus"
+						actionListener="#{gestaoUsuariosBean.prepararNovoUsuario}"
+						oncomplete="PF('usuarioDialogWidgetVar').show()"
+						update="usuarioDialog" process="@this" style="margin: 0 10px;">
+						<p:resetInput target="usuarioDialog" />
+					</p:commandButton>
+
+					<p:commandButton title="Editar" icon="pi pi-pencil"
+						disabled="#{not gestaoUsuariosBean.usuarioSelecionado}"
+						oncomplete="PF('usuarioDialogWidgetVar').show()"
+						update="usuarioDialog" process="@this" style="margin: 0 10px;">
+						<p:resetInput target="usuarioDialog" />
+					</p:commandButton>
+
+					<p:commandButton title="Excluir" icon="pi pi-trash"
+						disabled="#{not gestaoUsuariosBean.usuarioSelecionado}"
+						actionListener="#{gestaoUsuariosBean.excluir}"
+						update="messages usuariosDataTable toolbar" process="@this"
+						style="margin: 0 10px;">
+						<p:confirm icon="pi pi-info-circle" header="Confirmação"
+							message="Confirma a exclusão de usuário?" />
+					</p:commandButton>
+
+					<p:commandButton title="Exportar para o Excel"
+						icon="pi pi-file-excel" ajax="false" style="margin: 0 10px;"
+						styleClass="ui-button-outlined">
+						<p:dataExporter type="xls" target="usuariosDataTable"
+							fileName="Registros-Usuarios" />
+					</p:commandButton>
+
+					<p:commandButton title="Exportar para PDF" icon="pi pi-file-pdf"
+						ajax="false" style="margin: 0 10px;"
+						styleClass="ui-button-outlined">
+						<p:dataExporter type="pdf" target="usuariosDataTable"
+							fileName="Registros-Usuarios" />
+					</p:commandButton>
+
+				</p:toolbarGroup>
+
+			</p:toolbar>
+
+			<p:spacer height="20px" />
+
+			<p:dataTable id="usuariosDataTable"
+				value="#{gestaoUsuariosBean.listaUsuarios}" var="usuario"
+				emptyMessage="Nenhuma informação a ser exibida" paginator="true"
+				rows="10" paginatorPosition="bottom" selectionMode="single"
+				selection="#{gestaoUsuariosBean.usuario}"
+				rowKey="#{usuario.USU_CODIGO}" stickyTopAt=".layout-topbar">
+
+				<p:ajax event="rowSelect" update="frm:toolbar" />
+
+				<p:ajax event="rowUnselect" update="frm:toolbar" />
+
+				<p:column headerText="Código" sortBy="#{usuario.USU_CODIGO}">
+					<h:outputText value="#{usuario.USU_CODIGO}" />
+				</p:column>
+
+				<p:column headerText="Nome">
+					<h:outputText value="#{usuario.USU_NOME}" />
+				</p:column>
+
+				<p:column headerText="Login">
+					<h:outputText value="#{usuario.USU_LOGIN}" />
+				</p:column>
+
+				<p:column headerText="Ativo">
+					<h:outputText value="#{usuario.USU_ATIVO == 1 ? 'Sim' : 'Não'}" />
+				</p:column>
+
+			</p:dataTable>
+
+			<p:dialog id="usuarioDialog" header="Novo Usuário"
+				widgetVar="usuarioDialogWidgetVar" modal="true" resizable="false"
+				closeOnEscape="true">
+
+				<p:messages id="usuarioMessages" />
+
+				<p:defaultCommand target="salvarCommandButton" scope="usuarioDialog" />
+
+				<h:panelGrid id="usuarioPanelGrid" columns="2"
+					rendered="#{gestaoUsuariosBean.usuario ne null}">
+
+					<p:outputLabel value="Código: " for="USU_CODIGO" />
+					<p:inputText id="USU_CODIGO" size="10" disabled="true"
+						value="#{gestaoUsuariosBean.usuario.USU_CODIGO}" />
+
+					<p:outputLabel value="Nome: " for="USU_NOME" />
+					<p:inputText id="USU_NOME" size="80"
+						value="#{gestaoUsuariosBean.usuario.USU_NOME}" />
+
+					<p:outputLabel value="Login: " for="USU_LOGIN" />
+					<p:inputText id="USU_LOGIN" size="20"
+						value="#{gestaoUsuariosBean.usuario.USU_LOGIN}" />
+
+					<p:outputLabel value="Senha: " for="USU_SENHA" />
+					<p:password id="USU_SENHA" toggleMask="true" size="20"
+						value="#{gestaoUsuariosBean.usuario.USU_SENHA}" />
+
+					<p:outputLabel value="Data Cadastro: " for="USU_DTCADASTRO" />
+					<p:calendar pattern="dd/MM/yyyy" id="USU_DTCADASTRO" size="30"
+						value="#{gestaoUsuariosBean.usuario.USU_DTCADASTRO}" />
+
+					<p:outputLabel />
+					<p:selectOneRadio id="line" layout="lineDirection"
+						value="#{gestaoUsuariosBean.usuario.USU_ATIVO}">
+						<f:selectItem itemLabel="ATIVO" itemValue="1" />
+						<f:selectItem itemLabel="INATIVO" itemValue="0" />
+					</p:selectOneRadio>
+
+					<p:outputLabel />
+					<p:commandButton id="salvarCommandButton" value="Salvar"
+						actionListener="#{gestaoUsuariosBean.salvar}"
+						update="usuarioPanelGrid usuarioMessages"
+						oncomplete="if (!args.validationFailed) PF('usuarioDialogWidgetVar').hide()"
+						process="usuarioDialog" />
+
+				</h:panelGrid>
+
+			</p:dialog>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

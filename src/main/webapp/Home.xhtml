@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="WEB-INF/template/layout.xhtml">
+
+	<ui:define name="estilo">
+		<h:outputStylesheet library="projeto" name="home.css" />
+	</ui:define>
+
+	<ui:define name="titulo">Home
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<div class="home">
+			<div class="img">
+				<p:graphicImage name="my-img.png" library="images"
+					style="width: 70%;" />
+			</div>
+			<div class="container">
+
+				<h1>Desenvolvimento de Aplicação Java Web</h1>
+
+				<div class="text">
+					<p>Olá! É um prazer compartilhar minha recente experiência no
+						desenvolvimento de uma aplicação web. Durante o projeto, construí
+						um CRUD (Create, Read, Update, Delete) robusto, utilizando
+						tecnologias como Java, JPA, CDI, Hibernate, PrimeFaces, JSF, HTML,
+						CSS, SQL e seguindo o padrão arquitetural MVC.</p>
+
+					<p>A aplicação oferece operações intuitivas para criar,
+						visualizar, atualizar e excluir registros. A interface foi
+						desenvolvida com PrimeFaces e JSF, proporcionando uma experiência
+						moderna e interativa.</p>
+
+					<p>A estrutura do projeto segue o padrão MVC, garantindo uma
+						arquitetura modular e fácil de manter. A combinação dessas
+						tecnologias proporcionou não apenas uma gestão simplificada de
+						dados, mas também uma experiência aprimorada.</p>
+
+					<p>Estou confiante de que a aplicação representa não apenas a
+						integração bem-sucedida de diversas tecnologias, mas também um
+						passo significativo em direção ao desenvolvimento web eficiente e
+						à aplicação dos conhecimentos adquiridos em meus estudos. Obrigado
+						e aproveite a experiência!</p>
+				</div>
+			</div>
+		</div>
+
+
+
+	</ui:define>
+
+</ui:composition>

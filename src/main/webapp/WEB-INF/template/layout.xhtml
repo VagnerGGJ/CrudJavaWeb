@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+
+	<meta charset="UTF-8" />
+	<title>Gestão Usuários</title>
+
+	<h:outputStylesheet library="projeto" name="estilo.css" />
+
+	<ui:insert name="estilo" />
+	
+</h:head>
+
+<h:body>
+	<header>
+		<h:form>
+			<p:sidebar widgetVar="sidebar">
+				<div class="card">
+					<h3>Operações</h3>
+					<p:menu toggleable="true" style="width: 100%;">
+						<p:menuitem value="Home" action="Home?faces-redirect=true" />
+						<p:submenu label="Cadastros">
+							<p:menuitem value="Usuários"
+								action="GestaoUsuarios?faces-redirect=true" />
+						</p:submenu>
+						<p:submenu label="Dashboard">
+							<p:menuitem value="Usuários"
+								action="Graficos?faces-redirect=true" />
+						</p:submenu>
+					</p:menu>
+				</div>
+			</p:sidebar>
+
+			<p:commandButton type="button" icon="pi pi-bars"
+				onclick="PF('sidebar').show()"
+				styleClass="rounded-button ui-button-flat" />
+
+		</h:form>
+	</header>
+
+	<h2>
+		<ui:insert name="titulo" />
+	</h2>
+
+	<div id="conteudo">
+		<ui:insert name="conteudo" />
+	</div>
+
+	<footer> Projeto Web com Prime Faces </footer>
+
+	<h:form>
+		<p:confirmDialog global="true">
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no ui-button-flat" />
+
+			<p:commandButton value="Sim" type="button"
+				styleClass="ui-confirmdialog-yes" />
+		</p:confirmDialog>
+	</h:form>
+
+</h:body>
+
+</html>
